@@ -1,0 +1,23 @@
+#!/usr/bin/php
+<?php
+
+exec("git diff --cached --name-status --diff-filter=ACM", $output);
+
+foreach ($output as $file) {
+    $fileName = trim(substr($file, 1));
+
+    if (pathinfo($fileName, PATHINFO_EXTENSION) === "php") {
+        $output = [];
+
+        exec("php -l " . escapeshellarg($fileName), $output, $return);
+
+        if ($return == 0) {
+            exec(__DIR__ . "/../../vendor/bin/php-cs-fixer fix {$fileName}; git add {$fileName}");
+        } else {
+            echo implode("\n", $output), "\n";
+            exit(1);
+        }
+    }
+}
+
+exit(0);

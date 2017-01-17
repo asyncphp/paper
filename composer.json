@@ -1,0 +1,32 @@
+{
+    "name": "asyncphp/paper",
+    "description": "Hassle-free HTML to PDF conversion abstraction library",
+    "license": "MIT",
+    "require": {
+        "php": "^7.0",
+        "amphp/loop": "dev-master",
+        "amphp/parallel": "dev-master"
+    },
+    "require-dev": {
+        "dompdf/dompdf": "^0.7.0",
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "AsyncPHP\\Paper\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests"
+        ]
+    },
+    "suggest": {
+        "dompdf/dompdf": "Needed to use the dompdf driver",
+        "wkhtmltopdf": "Needed to use the wkhtmltopdf driver",
+        "prince": "Needed to use the prince driver"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

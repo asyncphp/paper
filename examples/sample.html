@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="https://cdn.rawgit.com/assertchris/uploads/master/prism.css" rel="stylesheet">
+        <style type="text/css">
+            @page {
+                margin: 0.25in 0.5in;
+            }
+
+            body {
+                font-family: "Open Sans", sans-serif;
+                line-height: 1.5;
+                color: #333;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            th, td {
+                border-collapse: collapse;
+                padding: 0.5em;
+            }
+
+            .right {
+                text-align: right;
+            }
+
+            .center {
+                text-align: center;
+            }
+
+            h2 {
+                margin-top: 2em;
+                clear: both;
+            }
+
+            .next-page {
+                page-break-before: always;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Paper</h1>
+        <p>Hassle-free HTML to PDF conversion abstraction library.</p>
+        <h2>Installation</h2>
+        <pre><code class="language-bash">composer require asyncphp/paper</code></pre>
+        <h2>Usage</h2>
+        <pre><code class="language-php">// async
+
+$async = new DomDriver();
+
+$result = yield $async
+    ->html($sample)
+    ->size("B5")
+    ->orientation("landscape")
+    ->dpi(300)
+    ->render();
+
+// sync
+
+$sync = new SyncDriver(new DomDriver());
+
+$result = $sync
+    ->html($sample)
+    ->size("B5")
+    ->orientation("landscape")
+    ->dpi(300)
+    ->render();</code></pre>
+        <h2 class="next-page">Supported drivers</h2>
+        <table>
+            <tr>
+                <th></th>
+                <th><a href="http://dompdf.github.io">dompdf</a></th>
+                <th><a href="http://wkhtmltopdf.org">wkhtmltopdf</a></th>
+                <th><a href="https://www.princexml.com">prince</a></th>
+            </tr>
+            <tr>
+                <td class="right">Requires command-line utilities</td>
+                <td class="center">no</td>
+                <td class="center">yes</td>
+                <td class="center">yes</td>
+            </tr>
+            <tr>
+                <td class="right">Supports modern CSS</td>
+                <td class="center">no</td>
+                <td class="center">yes</td>
+                <td class="center">yes</td>
+            </tr>
+            <tr>
+                <td class="right">Supports modern JS</td>
+                <td class="center">no</td>
+                <td class="center">yes</td>
+                <td class="center">yes</td>
+            </tr>
+            <tr>
+                <td class="right">Produces vector files</td>
+                <td class="center">yes</td>
+                <td class="center">yes</td>
+                <td class="center">yes</td>
+            </tr>
+        </table>
+        <script src="https://cdn.rawgit.com/assertchris/uploads/master/prism.js"></script>
+    </body>
+</html>
