@@ -7,11 +7,3 @@ checks:
     php:
         code_rating: true
         duplication: true
-
-build:
-    dependencies:
-        override:
-            - true
-    tests:
-        override:
-            - phpcs-run

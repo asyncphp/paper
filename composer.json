@@ -3,14 +3,18 @@
     "description": "Hassle-free HTML to PDF conversion abstraction library",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
-        "amphp/loop": "dev-master",
-        "amphp/parallel": "dev-master"
+        "php": "^5.6|^7.0"
     },
     "require-dev": {
         "dompdf/dompdf": "^0.7.0",
         "friendsofphp/php-cs-fixer": "^2.0",
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^5.7",
+        "amphp/loop": "dev-master",
+        "amphp/parallel": "dev-master",
+        "async-interop/event-loop": "^0.5.0",
+        "react/event-loop": "^0.4.2",
+        "react/child-process": "^0.4.1",
+        "jeremeamia/superclosure": "^2.3"
     },
     "autoload": {
         "psr-4": {
@@ -23,9 +27,15 @@
         ]
     },
     "suggest": {
-        "dompdf/dompdf": "Needed to use the dompdf driver",
-        "wkhtmltopdf": "Needed to use the wkhtmltopdf driver",
-        "prince": "Needed to use the prince driver"
+        "amphp/loop": "Needed for Amp Runner",
+        "amphp/parallel": "Needed for Amp Runner",
+        "async-interop/event-loop": "Needed for Amp Runner",
+        "dompdf/dompdf": "Needed for DOMPDF Driver",
+        "prince": "Needed for Prince Driver",
+        "react/event-loop": "Needed for React Runner",
+        "react/child-process": "Needed for React Runner",
+        "jeremeamia/superclosure": "Needed for React Runner",
+        "wkhtmltopdf": "Needed for WKHTMLtoPDF Driver"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

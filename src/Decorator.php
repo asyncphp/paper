@@ -6,5 +6,10 @@ use AsyncPHP\Paper\Driver;
 
 interface Decorator
 {
-    public function decorated(): Driver;
+    /**
+     * Returns the decorated driver instance.
+     *
+     * @return Driver
+     */
+    public function decorated();
 }

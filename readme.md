@@ -17,20 +17,20 @@ You can use any of the drivers directly:
 ```php
 use AsyncInterop\Loop;
 use AsyncPHP\Paper\Driver\DomDriver;
-use AsyncPHP\Paper\Driver\PrinceDriver;
-use AsyncPHP\Paper\Driver\WebkitDriver;
+use AsyncPHP\Paper\Runner\AmpRunner;
 
-$dom = new DomDriver();
-$prince = new PrinceDriver($binary = "/path/to/prince", $tempPath = "/path/to/temp");
-$webkit = new WebkitDriver($binary = "/path/to/wkhtmltopdf", $tempPath = "/path/to/temp");
+Loop::execute(Amp\wrap(function() use ($sample) {
+    $driver = new DomDriver();
+    $runner = new AmpRunner();
 
-Loop::execute(Amp\wrap(function() use ($dom) {
-    yield $dom
+    $promise = $driver
         ->html($sample)
         ->size("A4")
         ->orientation("portrait")
         ->dpi(300)
-        ->render();
+        ->render($runner);
+
+    $results = yield $promise;
 }));
 ```
 
@@ -68,30 +68,28 @@ $config = [
             // http://wkhtmltopdf.org/usage/wkhtmltopdf.txt
         ],
     ],
+
+    "runner" => "amp",
 ];
 
 $factory = new Factory();
 $driver = $factory->createDriver($config);
+$runner = $factory->createRunner($config);
 
-yield $driver->html("hello world")->render();
+yield $driver->html($sample)->render($runner);
 ```
 
 Paper takes an async-first approach. Operations, like rendering PDF files, are particularly suited to parallel processing architecture. You may be stuck rending PDF files in a synchronous architecture, in which case you can use the `SyncDriver` decorator:
 
 ```php
 $driver = new SyncDriver(new DomDriver());
-$driver->html("hello world")->render();
 
 // ...or with the factory
-
-$factory = new Factory();
 
 $driver = $factory->createDriver([
     "driver" => "dom",
     "sync" => true,
 ]);
-
-$driver->html("hello world")->render();
 ```
 
 ## Drivers
@@ -121,6 +119,28 @@ Here's a list of the drivers to currently support:
 * Supports modern JS: **yes**
 * Produces vector files: **yes**
 * Open + free: **no**
+
+## Runners
+
+Paper supports [Amp](https://github.com/amphp) and [React](https://github.com/reactphp), to package and run the async code. You have to install one of the following library groups:
+
+### [Amp](examples/async-amp-dom.php)
+
+```
+composer require amphp/loop
+composer require amphp/parallel
+composer require async-interop/event-loop
+```
+
+### [React](examples/async-react-webkit.php)
+
+```
+composer require react/event-loop
+composer require react/child-process
+composer require jeremeamia/superclosure
+```
+
+Take a look at the [examples](examples) folder to find out more about using the async drivers.
 
 ## Roadmap
 

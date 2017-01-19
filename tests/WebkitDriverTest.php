@@ -2,6 +2,7 @@
 
 namespace AsyncPHP\Paper\Tests;
 
+use AsyncPHP\Paper\Runner\AmpRunner;
 use AsyncPHP\Paper\Driver\WebkitDriver;
 use AsyncPHP\Paper\Driver\SyncDriver;
 use PHPUnit\Framework\TestCase;
@@ -21,14 +22,16 @@ skip the test, in that case.
 
         error_reporting(E_ERROR | E_PARSE);
 
-        $sync = new SyncDriver(new WebkitDriver($binary = "/usr/local/bin/wkhtmltopdf", $temp = __DIR__));
+        $driver = new SyncDriver(new WebkitDriver($binary = "/usr/local/bin/wkhtmltopdf", $temp = __DIR__));
 
-        $result = $sync
+        $runner = new AmpRunner();
+
+        $result = $driver
             ->html(file_get_contents(__DIR__ . "/fixtures/sample.html"))
             ->size("A4")
             ->orientation("portrait")
             ->dpi(300)
-            ->render();
+            ->render($runner);
 
         file_put_contents(__DIR__ . "/test-webkit.pdf", $result);
 

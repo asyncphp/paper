@@ -27,86 +27,84 @@ abstract class BaseDriver implements Driver
     protected $orientation = "portrait";
 
     /**
-     * @var string
+     * @var int
      */
     protected $dpi = 300;
 
     /**
      * @inheritdoc
+     *
+     * @param null|string $html
+     *
+     * @return string|static
      */
-    public function html(string $html = null)
+    public function html($html = null)
     {
         if (is_null($html)) {
             return $this->html;
         }
 
         $this->html = $html;
-
         return $this;
     }
 
     /**
      * @inheritdoc
+     *
+     * @param null|string $size
+     *
+     * @return string|static
      */
-    public function size(string $size = null)
+    public function size($size = null)
     {
         if (is_null($size)) {
             return $this->size;
         }
 
         $this->size = $size;
-
         return $this;
     }
 
     /**
      * @inheritdoc
+     *
+     * @param null|string $orientation
+     *
+     * @return string|static
      */
-    public function orientation(string $orientation = null)
+    public function orientation($orientation = null)
     {
         if (is_null($orientation)) {
             return $this->orientation;
         }
 
         $this->orientation = $orientation;
-
         return $this;
     }
 
     /**
      * @inheritdoc
+     *
+     * @param null|int $dpi
+     *
+     * @return int|static
      */
-    public function dpi(int $dpi = null)
+    public function dpi($dpi = null)
     {
         if (is_null($dpi)) {
             return $this->dpi;
         }
 
         $this->dpi = $dpi;
-
         return $this;
     }
 
     /**
-     * Pick the first available extension, and run the function in parallel.
-     */
-    protected function parallel(callable $function): Promise
-    {
-        if (Fork::supported()) {
-            return Fork::spawn($function)->join();
-        }
-
-        if (Thread::supported()) {
-            return Thread::spawn($function)->join();
-        }
-
-        throw new Exception();
-    }
-
-    /**
      * Get context variables for parallel execution.
+     *
+     * @return StdClass
      */
-    protected function data(): StdClass
+    protected function data()
     {
         return json_decode(json_encode([
             "html" => $this->html,

@@ -3,6 +3,8 @@
 namespace AsyncPHP\Paper\Driver;
 
 use AsyncPHP\Paper\Driver;
+use AsyncPHP\Paper\Promise;
+use AsyncPHP\Paper\Runner;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -14,7 +16,7 @@ final class DomDriver extends BaseDriver implements Driver
     private $options;
 
     /**
-     * @inheritdoc
+     * @param array $options
      */
     public function __construct(array $options = [])
     {
@@ -24,14 +26,16 @@ final class DomDriver extends BaseDriver implements Driver
     /**
      * @inheritdoc
      *
-     * @return Promise
+     * @param Runner $runner
+     *
+     * @return mixed
      */
-    public function render()
+    public function render(Runner $runner)
     {
         $data = $this->data();
         $custom = $this->options;
 
-        return $this->parallel(function() use ($data, $custom) {
+        return $runner->run(function() use ($data, $custom) {
             $options = new Options();
             $options->set("isJavascriptEnabled", true);
             $options->set("isPhpEnabled", false);
@@ -39,7 +43,7 @@ final class DomDriver extends BaseDriver implements Driver
             $options->set("dpi", $data->dpi);
 
             foreach ($custom as $key => $value) {
-                $options->set($Key, $value);
+                $options->set($key, $value);
             }
 
             $engine = new Dompdf($options);

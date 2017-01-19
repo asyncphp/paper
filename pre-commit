@@ -12,7 +12,7 @@ foreach ($output as $file) {
         exec("php -l " . escapeshellarg($fileName), $output, $return);
 
         if ($return == 0) {
-            exec(__DIR__ . "/../../vendor/bin/php-cs-fixer fix {$fileName}; git add {$fileName}");
+            exec(__DIR__ . "/../../vendor/bin/php-cs-fixer --using-cache=no fix {$fileName}; git add {$fileName}");
         } else {
             echo implode("\n", $output), "\n";
             exit(1);

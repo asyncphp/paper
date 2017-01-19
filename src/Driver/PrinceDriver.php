@@ -3,6 +3,8 @@
 namespace AsyncPHP\Paper\Driver;
 
 use AsyncPHP\Paper\Driver;
+use AsyncPHP\Paper\Promise;
+use AsyncPHP\Paper\Runner;
 use StdClass;
 
 final class PrinceDriver extends BaseDriver implements Driver
@@ -23,9 +25,11 @@ final class PrinceDriver extends BaseDriver implements Driver
     private $options;
 
     /**
-     * @inheritdoc
+     * @param string $binaryPath
+     * @param string $tempPath
+     * @param array $options
      */
-    public function __construct(string $binaryPath, string $tempPath, array $options = [])
+    public function __construct($binaryPath, $tempPath, array $options = [])
     {
         $this->binaryPath = $binaryPath;
         $this->tempPath = $tempPath;
@@ -35,9 +39,11 @@ final class PrinceDriver extends BaseDriver implements Driver
     /**
      * @inheritdoc
      *
-     * @return Promise
+     * @param Runner $runner
+     *
+     * @return mixed
      */
-    public function render()
+    public function render(Runner $runner)
     {
         $data = $this->data();
 
@@ -51,7 +57,7 @@ final class PrinceDriver extends BaseDriver implements Driver
         $output = "{$tempPath}/{$hash}.pdf";
         $custom = $this->options;
 
-        return $this->parallel(function() use ($data, $binary, $input, $styles, $output, $custom) {
+        return $runner->run(function() use ($data, $binary, $input, $styles, $output, $custom) {
             file_put_contents($input, $data->html);
             file_put_contents($styles, "@page { size: {$data->size} {$data->orientation} }");
 
