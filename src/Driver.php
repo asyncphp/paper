@@ -7,11 +7,11 @@ interface Driver
     /**
      * Gets or sets the HTML body of the document.
      *
-     * @param null|string $html
+     * @param null|string $body
      *
      * @return string|static
      */
-    public function html($html = null);
+    public function body($body = null);
 
     /**
      * Gets or sets the page size of the document.

@@ -48,7 +48,7 @@ final class DomDriver extends BaseDriver implements Driver
 
             $engine = new Dompdf($options);
             $engine->setPaper($data->size, $data->orientation);
-            $engine->loadHtml($data->html);
+            $engine->loadHtml($data->body);
             $engine->render();
 
             return $engine->output();

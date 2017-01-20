@@ -29,17 +29,17 @@ final class SyncDriver implements Decorator, Driver
     /**
      * @inheritdoc
      *
-     * @param null|string $html
+     * @param null|string $body
      *
      * @return string|static
      */
-    public function html($html = null)
+    public function body($body = null)
     {
-        if (is_null($html)) {
-            return $this->decorated->html();
+        if (is_null($body)) {
+            return $this->decorated->body();
         }
 
-        $this->decorated->html($html);
+        $this->decorated->body($body);
         return $this;
     }
 

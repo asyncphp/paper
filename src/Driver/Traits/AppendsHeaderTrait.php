@@ -14,16 +14,10 @@ trait AppendsHeaderTrait
      */
     protected function appendsHeader($document, $header)
     {
-        $document = $this->appends($document, "head", "
-            <style>
-                .paper-header {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                }
-            </style>
-        ");
+        $document = $this->appends(
+            $document, "head",
+            "<style>.paper-header{position:fixed;top:0;left:0;width:100%;}</style>"
+        );
 
         $document = $this->appends($document, "body", "<div class='paper-header'>{$header}</div>");
 

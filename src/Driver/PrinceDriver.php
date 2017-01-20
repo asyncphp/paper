@@ -47,7 +47,7 @@ final class PrinceDriver extends BaseDriver implements Driver
     {
         $data = $this->data();
 
-        $hash = md5(spl_object_hash(new StdClass) . $this->html);
+        $hash = md5(spl_object_hash(new StdClass) . $this->body);
 
         $tempPath = rtrim($this->tempPath, "/");
 
@@ -58,7 +58,7 @@ final class PrinceDriver extends BaseDriver implements Driver
         $custom = $this->options;
 
         return $runner->run(function() use ($data, $binary, $input, $styles, $output, $custom) {
-            file_put_contents($input, $data->html);
+            file_put_contents($input, $data->body);
             file_put_contents($styles, "@page { size: {$data->size} {$data->orientation} }");
 
             $options = "";

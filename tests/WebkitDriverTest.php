@@ -27,7 +27,7 @@ skip the test, in that case.
         $runner = new AmpRunner();
 
         $result = $driver
-            ->html(file_get_contents(__DIR__ . "/fixtures/sample.html"))
+            ->body(file_get_contents(__DIR__ . "/fixtures/sample.html"))
             ->size("A4")
             ->orientation("portrait")
             ->dpi(300)

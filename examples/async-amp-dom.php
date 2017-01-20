@@ -23,7 +23,7 @@ Loop::execute(Amp\wrap(function() use ($sample) {
 
     // this is an AsyncInterop\Promise...
     $promise = $driver
-        ->html($sample)
+        ->body($sample)
         ->size("A4")
         ->orientation("portrait")
         ->dpi(300)

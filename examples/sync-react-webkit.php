@@ -21,7 +21,7 @@ $runner = $factory->createRunner([
 ]);
 
 $results = $driver
-    ->html($sample)
+    ->body($sample)
     ->size("A4")
     ->orientation("portrait")
     ->dpi(300)

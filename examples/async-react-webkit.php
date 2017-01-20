@@ -24,7 +24,7 @@ $loop = EventLoopFactory::create();
 
 // this is a React\ChildProcess\Process...
 $process = $driver
-    ->html($sample)
+    ->body($sample)
     ->size("A4")
     ->orientation("portrait")
     ->dpi(300)

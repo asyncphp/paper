@@ -26,7 +26,7 @@ Loop::execute(Amp\wrap(function() use ($sample) {
     ]);
 
     $promise = $driver
-        ->html($sample)
+        ->body($sample)
         ->size("A4")
         ->orientation("portrait")
         ->dpi(300)

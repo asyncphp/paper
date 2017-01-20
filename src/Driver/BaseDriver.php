@@ -11,10 +11,14 @@ use StdClass;
 
 abstract class BaseDriver implements Driver
 {
+    use Traits\AppendsTrait;
+    use Traits\AppendsHeaderTrait;
+    use Traits\AppendsFooterTrait;
+
     /**
      * @var string
      */
-    protected $html;
+    protected $body;
 
     /**
      * @var string
@@ -34,17 +38,17 @@ abstract class BaseDriver implements Driver
     /**
      * @inheritdoc
      *
-     * @param null|string $html
+     * @param null|string $body
      *
      * @return string|static
      */
-    public function html($html = null)
+    public function body($body = null)
     {
-        if (is_null($html)) {
-            return $this->html;
+        if (is_null($body)) {
+            return $this->body;
         }
 
-        $this->html = $html;
+        $this->body = $body;
         return $this;
     }
 
@@ -107,7 +111,7 @@ abstract class BaseDriver implements Driver
     protected function data()
     {
         return json_decode(json_encode([
-            "html" => $this->html,
+            "body" => $this->body,
             "size" => $this->size,
             "orientation" => $this->orientation,
             "dpi" => $this->dpi,

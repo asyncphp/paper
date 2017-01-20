@@ -12,18 +12,12 @@ trait AppendsFooterTrait
      *
      * @return string
      */
-    protected function appendsHeader($document, $footer)
+    protected function appendsFooter($document, $footer)
     {
-        $document = $this->appends($document, "head", "
-            <style>
-                .paper-footer {
-                    position: fixed;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                }
-            </style>
-        ");
+        $document = $this->appends(
+            $document, "head",
+            "<style>.paper-footer{position:fixed;bottom:0;left:0;width:100%;}</style>"
+        );
 
         $document = $this->appends($document, "body", "<div class='paper-footer'>{$footer}</div>");
 

@@ -22,7 +22,7 @@ class RUnnerTest extends TestCase
         $reactRunner = new ReactRunner();
 
         $ampResult = $driver
-            ->html($sample)
+            ->body($sample)
             ->size("A4")
             ->orientation("portrait")
             ->dpi(300)
@@ -31,7 +31,7 @@ class RUnnerTest extends TestCase
         file_put_contents(__DIR__ . "/test-amp.pdf", $ampResult);
 
         $reactResult = $driver
-            ->html($sample)
+            ->body($sample)
             ->size("A4")
             ->orientation("portrait")
             ->dpi(300)
