@@ -3,7 +3,9 @@
     "description": "Hassle-free HTML to PDF conversion abstraction library",
     "license": "MIT",
     "require": {
-        "php": "^5.6|^7.0"
+        "php": "^5.6|^7.0",
+        "symfony/dom-crawler": "^3.2",
+        "symfony/css-selector": "^3.2"
     },
     "require-dev": {
         "dompdf/dompdf": "^0.7.0",

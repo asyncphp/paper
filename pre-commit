@@ -3,21 +3,23 @@
 
 exec("git diff --cached --name-status --diff-filter=ACM", $output);
 
-foreach ($output as $file) {
-    $fileName = trim(substr($file, 1));
+foreach ($output as $line) {
+  $file = trim(substr($line, 1));
+  $extension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-    if (pathinfo($fileName, PATHINFO_EXTENSION) === "php") {
-        $output = [];
+  if ($extension === "php") {
+    $escaped = escapeshellarg($file);
+    exec("php -l {$escaped}", $output, $return);
 
-        exec("php -l " . escapeshellarg($fileName), $output, $return);
-
-        if ($return == 0) {
-            exec(__DIR__ . "/../../vendor/bin/php-cs-fixer --using-cache=no fix {$fileName}; git add {$fileName}");
-        } else {
-            echo implode("\n", $output), "\n";
-            exit(1);
-        }
+    if ($result != 0) {
+        echo implode("\n", $output), "\n";
+        exit(1);
     }
+
+    $binary = "vendor/bin/php-cs-fixer";
+    exec("{$binary} --using-cache=no fix {$file}");
+    exec("git add {$file}");
+  }
 }
 
 exit(0);
