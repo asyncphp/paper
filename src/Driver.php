@@ -5,6 +5,15 @@ namespace AsyncPHP\Paper;
 interface Driver
 {
     /**
+     * Gets or sets the HTML header of the document.
+     *
+     * @param null|string $header
+     *
+     * @return string|static
+     */
+    public function header($header = null);
+
+    /**
      * Gets or sets the HTML body of the document.
      *
      * @param null|string $body
@@ -12,6 +21,15 @@ interface Driver
      * @return string|static
      */
     public function body($body = null);
+
+    /**
+     * Gets or sets the HTML footer of the document.
+     *
+     * @param null|string $footer
+     *
+     * @return string|static
+     */
+    public function footer($footer = null);
 
     /**
      * Gets or sets the page size of the document.

@@ -27,7 +27,9 @@ skip the test, in that case.
         $runner = new AmpRunner();
 
         $result = $driver
+            ->header("this is the header")
             ->body(file_get_contents(__DIR__ . "/fixtures/sample.html"))
+            ->footer("this is the footer")
             ->size("A4")
             ->orientation("portrait")
             ->dpi(300)
@@ -35,7 +37,7 @@ skip the test, in that case.
 
         file_put_contents(__DIR__ . "/test-prince.pdf", $result);
 
-        exec("diff-pdf -v " . __DIR__ . "/test-prince.pdf " . __DIR__ . "/fixtures/prince.pdf", $output);
+        exec("diff-pdf -v " . __DIR__ . "/test-prince.pdf " . __DIR__ . "/fixtures/test-prince.pdf", $output);
 
         foreach ($output as $line) {
             if (stristr($line, "differs")) {

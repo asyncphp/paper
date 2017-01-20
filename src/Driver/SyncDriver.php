@@ -29,18 +29,53 @@ final class SyncDriver implements Decorator, Driver
     /**
      * @inheritdoc
      *
+     * @param null|string $header
+     *
+     * @return string|static
+     */
+    public function header($header = null)
+    {
+        return $this->access("header", $header);
+    }
+
+    /**
+     * Works as a universal getter and setter.
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    private function access($key, $value = null)
+    {
+        if (is_null($value)) {
+            return $this->decorated->$key();
+        }
+
+        $this->decorated->$key($value);
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
      * @param null|string $body
      *
      * @return string|static
      */
     public function body($body = null)
     {
-        if (is_null($body)) {
-            return $this->decorated->body();
-        }
+        return $this->access("body", $body);
+    }
 
-        $this->decorated->body($body);
-        return $this;
+    /**
+     * @inheritdoc
+     *
+     * @param null|string $footer
+     *
+     * @return string|static
+     */
+    public function footer($footer = null)
+    {
+        return $this->access("footer", $footer);
     }
 
     /**
@@ -52,12 +87,7 @@ final class SyncDriver implements Decorator, Driver
      */
     public function size($size = null)
     {
-        if (is_null($size)) {
-            return $this->decorated->size();
-        }
-
-        $this->decorated->size($size);
-        return $this;
+        return $this->access("size", $size);
     }
 
     /**
@@ -69,12 +99,7 @@ final class SyncDriver implements Decorator, Driver
      */
     public function orientation($orientation = null)
     {
-        if (is_null($orientation)) {
-            return $this->decorated->orientation();
-        }
-
-        $this->decorated->orientation($orientation);
-        return $this;
+        return $this->access("orientation", $orientation);
     }
 
     /**
@@ -86,12 +111,7 @@ final class SyncDriver implements Decorator, Driver
      */
     public function dpi($dpi = null)
     {
-        if (is_null($dpi)) {
-            return $this->decorated->dpi();
-        }
-
-        $this->decorated->dpi($dpi);
-        return $this;
+        return $this->access("dpi", $dpi);
     }
 
     /**
@@ -110,6 +130,8 @@ final class SyncDriver implements Decorator, Driver
         if ($runner instanceof ReactRunner) {
             return $this->renderWithReact($runner);
         }
+
+        return null;
     }
 
     /**

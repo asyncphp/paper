@@ -47,21 +47,21 @@ final class WebkitDriver extends BaseDriver implements Driver
     {
         $data = $this->data();
 
-        $hash = md5(spl_object_hash(new StdClass) . $this->body);
+        $hash = md5(spl_object_hash(new StdClass) . $data["html"]);
 
         $tempPath = rtrim($this->tempPath, "/");
 
         $binary = $this->binaryPath;
-        $input = "{$tempPath}/{$hash}.html";
+        $input = "{$tempPath}/{$hash}-body.html";
         $output = "{$tempPath}/{$hash}.pdf";
         $custom = $this->options;
 
         return $runner->run(function() use ($data, $binary, $input, $output, $custom) {
-            file_put_contents($input, $data->body);
+            file_put_contents($input, $data["html"]);
 
             $orientation = "Portrait";
 
-            if ($data->orientation === "landscape") {
+            if ($data["orientation"] === "landscape") {
                 $orientation = "Landscape";
             }
 
@@ -77,9 +77,9 @@ final class WebkitDriver extends BaseDriver implements Driver
 
             exec("
                 {$binary} \
-                --page-size {$data->size} \
+                --page-size {$data["size"]} \
                 --orientation {$orientation} \
-                --dpi {$data->dpi} \
+                --dpi {$data["dpi"]} \
                 --disable-smart-shrinking \
                 --load-error-handling 'ignore' \
                 --load-media-error-handling 'ignore' \

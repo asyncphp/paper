@@ -14,14 +14,32 @@ trait AppendsFooterTrait
      */
     protected function appendsFooter($document, $footer)
     {
-        $document = $this->appends(
-            $document, "head",
-            "<style>.paper-footer{position:fixed;bottom:0;left:0;width:100%;}</style>"
-        );
-
-        $document = $this->appends($document, "body", "<div class='paper-footer'>{$footer}</div>");
+        $document = $this->appends($document, "body", $this->footerHtml($footer));
+        $document = $this->appends($document, "head", $this->footerCss());
 
         return $document;
+    }
+
+    /**
+     * Returns the HTML to be applied for the footer.
+     *
+     * @param string $footer
+     *
+     * @return string
+     */
+    protected function footerHtml($footer)
+    {
+        return "<div class='paper-footer'>{$footer}</div>";
+    }
+
+    /**
+     * Returns the CSS to be applied for the footer.
+     *
+     * @return string
+     */
+    protected function footerCss()
+    {
+        return "<style>.paper-footer{position:fixed;bottom:0;left:0;}</style>";
     }
 
     /**

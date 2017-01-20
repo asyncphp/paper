@@ -18,7 +18,9 @@ class DomDriverTest extends TestCase
         $runner = new AmpRunner();
 
         $result = $driver
+            ->header("this is the header")
             ->body(file_get_contents(__DIR__ . "/fixtures/sample.html"))
+            ->footer("this is the footer")
             ->size("A4")
             ->orientation("portrait")
             ->dpi(300)
@@ -26,7 +28,7 @@ class DomDriverTest extends TestCase
 
         file_put_contents(__DIR__ . "/test-dom.pdf", $result);
 
-        exec("diff-pdf -v " . __DIR__ . "/test-dom.pdf " . __DIR__ . "/fixtures/dom.pdf", $output);
+        exec("diff-pdf -v " . __DIR__ . "/test-dom.pdf " . __DIR__ . "/fixtures/test-dom.pdf", $output);
 
         foreach ($output as $line) {
             if (stristr($line, "differs")) {

@@ -40,15 +40,15 @@ final class DomDriver extends BaseDriver implements Driver
             $options->set("isJavascriptEnabled", true);
             $options->set("isPhpEnabled", false);
             $options->set("isHtml5ParserEnabled", true);
-            $options->set("dpi", $data->dpi);
+            $options->set("dpi", $data["dpi"]);
 
             foreach ($custom as $key => $value) {
                 $options->set($key, $value);
             }
 
             $engine = new Dompdf($options);
-            $engine->setPaper($data->size, $data->orientation);
-            $engine->loadHtml($data->body);
+            $engine->setPaper($data["size"], $data["orientation"]);
+            $engine->loadHtml($data["html"]);
             $engine->render();
 
             return $engine->output();

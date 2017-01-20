@@ -2,12 +2,7 @@
 
 namespace AsyncPHP\Paper\Driver;
 
-use Amp\Parallel\Forking\Fork;
-use Amp\Parallel\Threading\Thread;
-use AsyncInterop\Promise;
 use AsyncPHP\Paper\Driver;
-use Exception;
-use StdClass;
 
 abstract class BaseDriver implements Driver
 {
@@ -18,7 +13,17 @@ abstract class BaseDriver implements Driver
     /**
      * @var string
      */
+    protected $header;
+
+    /**
+     * @var string
+     */
     protected $body;
+
+    /**
+     * @var string
+     */
+    protected $footer;
 
     /**
      * @var string
@@ -38,18 +43,53 @@ abstract class BaseDriver implements Driver
     /**
      * @inheritdoc
      *
+     * @param null|string $header
+     *
+     * @return string|static
+     */
+    public function header($header = null)
+    {
+        return $this->access("header", $header);
+    }
+
+    /**
+     * Works as a universal getter and setter.
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    private function access($key, $value = null)
+    {
+        if (is_null($value)) {
+            return $this->$key;
+        }
+
+        $this->$key = $value;
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
      * @param null|string $body
      *
      * @return string|static
      */
     public function body($body = null)
     {
-        if (is_null($body)) {
-            return $this->body;
-        }
+        return $this->access("body", $body);
+    }
 
-        $this->body = $body;
-        return $this;
+    /**
+     * @inheritdoc
+     *
+     * @param null|string $footer
+     *
+     * @return string|static
+     */
+    public function footer($footer = null)
+    {
+        return $this->access("footer", $footer);
     }
 
     /**
@@ -61,12 +101,7 @@ abstract class BaseDriver implements Driver
      */
     public function size($size = null)
     {
-        if (is_null($size)) {
-            return $this->size;
-        }
-
-        $this->size = $size;
-        return $this;
+        return $this->access("size", $size);
     }
 
     /**
@@ -78,12 +113,7 @@ abstract class BaseDriver implements Driver
      */
     public function orientation($orientation = null)
     {
-        if (is_null($orientation)) {
-            return $this->orientation;
-        }
-
-        $this->orientation = $orientation;
-        return $this;
+        return $this->access("orientation", $orientation);
     }
 
     /**
@@ -95,26 +125,36 @@ abstract class BaseDriver implements Driver
      */
     public function dpi($dpi = null)
     {
-        if (is_null($dpi)) {
-            return $this->dpi;
-        }
-
-        $this->dpi = $dpi;
-        return $this;
+        return $this->access("dpi", $dpi);
     }
 
     /**
      * Get context variables for parallel execution.
      *
-     * @return StdClass
+     * @return array
      */
     protected function data()
     {
-        return json_decode(json_encode([
+        $html = $this->appends(
+            $this->body, "head", "<style>html,body{height:100%;position:relative;}</style>"
+        );
+
+        if ($this->header) {
+            $html = $this->appendsHeader($html, $this->header);
+        }
+
+        if ($this->footer) {
+            $html = $this->appendsFooter($html, $this->footer);
+        }
+
+        return [
+            "header" => $this->header,
             "body" => $this->body,
+            "footer" => $this->footer,
+            "html" => $html,
             "size" => $this->size,
             "orientation" => $this->orientation,
             "dpi" => $this->dpi,
-        ]));
+        ];
     }
 }

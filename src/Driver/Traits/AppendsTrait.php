@@ -28,7 +28,12 @@ trait AppendsTrait
             $fragment->appendXML($content);
 
             $imported = $node->ownerDocument->importNode($fragment);
-            $node->appendChild($imported);
+
+            if ($node->firstChild) {
+                $node->insertBefore($imported, $node->firstChild);
+            } else {
+                $node->appendChild($imported);
+            }
         });
 
         $html = $crawler->getNode(0);

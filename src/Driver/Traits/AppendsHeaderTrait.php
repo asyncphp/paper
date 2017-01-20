@@ -14,14 +14,32 @@ trait AppendsHeaderTrait
      */
     protected function appendsHeader($document, $header)
     {
-        $document = $this->appends(
-            $document, "head",
-            "<style>.paper-header{position:fixed;top:0;left:0;width:100%;}</style>"
-        );
-
-        $document = $this->appends($document, "body", "<div class='paper-header'>{$header}</div>");
+        $document = $this->appends($document, "body", $this->headerHtml($header));
+        $document = $this->appends($document, "head", $this->headerCss());
 
         return $document;
+    }
+
+    /**
+     * Returns the HTML to be applied for the header.
+     *
+     * @param string $header
+     *
+     * @return string
+     */
+    protected function headerHtml($header)
+    {
+        return "<div class='paper-header'>{$header}</div>";
+    }
+
+    /**
+     * Returns the CSS to be applied for the header.
+     *
+     * @return string
+     */
+    protected function headerCss()
+    {
+        return "<style>.paper-header{position:fixed;top:0;left:0;}</style>";
     }
 
     /**
