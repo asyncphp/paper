@@ -104,7 +104,7 @@ Here's a list of the drivers to currently support:
 * Produces vector files: **yes**
 * Open + free: **yes**
 
-### [WKHTMLtoDPF](http://wkhtmltopdf.org)
+### [WKHTMLtoPDF](http://wkhtmltopdf.org)
 
 * Requires command-line utilities: **yes**
 * Supports modern CSS: **yes**
